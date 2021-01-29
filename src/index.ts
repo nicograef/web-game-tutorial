@@ -1,4 +1,5 @@
 import InputHandler from './InputHandler'
+import Ball from './Ball'
 import Paddle from './Paddle'
 
 const GAME_WIDTH = 900
@@ -8,6 +9,7 @@ const canvas = document.querySelector<HTMLCanvasElement>('#screen')!
 const context = canvas.getContext('2d')!
 
 const paddle = new Paddle(GAME_WIDTH, GAME_HEIGHT)
+const ball = new Ball(GAME_WIDTH, GAME_HEIGHT)
 
 new InputHandler({
   arrowLeftPressed: () => paddle.moveLeft(),
@@ -26,7 +28,11 @@ function gameLoop(timestamp: DOMHighResTimeStamp) {
   paddle.update(deltaTime)
   paddle.draw(context)
 
+  ball.update(deltaTime)
+  ball.draw(context)
+
   window.requestAnimationFrame(gameLoop)
+
 }
 
 gameLoop(1)

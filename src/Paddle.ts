@@ -2,7 +2,7 @@ export default class Paddle {
   private width = 150
   private height = 25
   private padding = 5
-  private speed = 10
+  private speed = 40
   private x
   private y
   private direction: 'left' | 'right' | null
@@ -40,8 +40,12 @@ export default class Paddle {
     else if (this.direction === 'left') this.x -= this.speed / deltaTime
     else if (this.direction === 'right') this.x += this.speed / deltaTime
 
-    if (this.x < 0 + this.padding) this.x = this.padding
-    if (this.x + this.width > this.gameWidth - this.padding) this.x = this.gameWidth - this.width - this.padding
+    if (this.x < 0 + this.padding) {
+      this.x = this.padding
+    }
+    if (this.x + this.width > this.gameWidth - this.padding) {
+      this.x = this.gameWidth - this.width - this.padding
+    }
   }
 
   public draw(context: CanvasRenderingContext2D) {

@@ -10,13 +10,13 @@ interface IInputHandlers {
 export default class InputHandler {
   constructor(handlers: IInputHandlers) {
     document.addEventListener('keydown', (keyDownEvent) => {
-      keyDownEvent.preventDefault()
+      // keyDownEvent.preventDefault()
       if (keyDownEvent.code === KEYS.LEFT) handlers.arrowLeftPressed()
       else if (keyDownEvent.code === KEYS.RIGHT) handlers.arrowRightPressed()
     })
 
     document.addEventListener('keyup', (keyDownEvent) => {
-      keyDownEvent.preventDefault()
+      // keyDownEvent.preventDefault()
       if (keyDownEvent.code === KEYS.LEFT) handlers.arrowLeftReleased()
       else if (keyDownEvent.code === KEYS.RIGHT) handlers.arrowRightReleased()
     })
