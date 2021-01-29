@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "dist",
+    "module": "ES6",
+    "target": "ES2017",
+    "lib": ["DOM"],
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "inlineSourceMap": true
+  }
+}
