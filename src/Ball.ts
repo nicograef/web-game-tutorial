@@ -1,11 +1,11 @@
 export default class Paddle {
-  private radius = 10
+  public radius = 10
   private padding = 1
-  private speed = 40
-  private x
-  private y
+  private speed = 50
+  public x
+  public y
   private vx = 1
-  private vy = -1
+  public vy = -1
   private direction: 'left' | 'right' | null
 
   constructor(private gameWidth: number, private gameHeight: number) {
