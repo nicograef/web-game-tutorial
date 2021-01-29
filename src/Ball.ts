@@ -40,22 +40,28 @@ export default class Paddle {
     this.x += (this.vx * this.speed) / deltaTime
     this.y += (this.vy * this.speed) / deltaTime
 
-    if (this.x < 0 + this.radius + this.padding) {
+    // left border
+    if (this.x - this.radius < 0 + this.padding) {
       this.x = this.radius + this.padding
       this.vx = -this.vx
     }
+
+    // right border
     if (this.x + this.radius > this.gameWidth - this.padding) {
       this.x = this.gameWidth - this.radius - this.padding
       this.vx = -this.vx
     }
 
+    // top border
     if (this.y < 0 + this.radius + this.padding) {
       this.y = this.radius + this.padding
       this.vy = -this.vy
     }
+
+    // bottom border
     if (this.y > this.gameHeight - this.radius - this.padding) {
-      this.y = this.gameHeight - this.radius - this.padding
-      this.vy = -this.vy
+      // this.y = this.gameHeight - this.radius - this.padding
+      // this.vy = -this.vy
     }
   }
 

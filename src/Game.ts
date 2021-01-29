@@ -2,12 +2,11 @@ import InputHandler from './InputHandler'
 import Ball from './Ball'
 import Paddle from './Paddle'
 
-// const GAME_WIDTH = 900
-// const GAME_HEIGHT = 600
-
 export default class Game {
   private paddle: Paddle
   private ball: Ball
+
+  private inputHandler: InputHandler
 
   private context: CanvasRenderingContext2D
   private width: number
@@ -23,14 +22,28 @@ export default class Game {
     this.paddle = new Paddle(this.width, this.height)
     this.ball = new Ball(this.width, this.height)
 
-    new InputHandler({
+    this.inputHandler = new InputHandler({
       arrowLeftPressed: () => this.paddle.moveLeft(),
       arrowLeftReleased: () => this.paddle.stopLeft(),
       arrowRightPressed: () => this.paddle.moveRight(),
       arrowRightReleased: () => this.paddle.stopRight(),
     })
 
+    this.inputHandler.setupAllListeners()
+
     this.loop(1)
+  }
+
+  private restart() {
+    this.paddle = new Paddle(this.width, this.height)
+    this.ball = new Ball(this.width, this.height)
+    // this.inputHandler.setupAllListeners()
+    this.loop(1)
+  }
+
+  private stop() {
+    this.inputHandler.cleanupAllListeners()
+    setTimeout(this.restart.bind(this), 1000)
   }
 
   private update(deltaTime: number) {
@@ -59,6 +72,11 @@ export default class Game {
     this.update(deltaTime)
     this.draw()
 
+    if (this.hasBallFallenThrough()) {
+      this.stop()
+      return
+    }
+
     window.requestAnimationFrame(this.loop.bind(this))
   }
 
@@ -68,5 +86,9 @@ export default class Game {
       this.ball.x <= this.paddle.x + this.paddle.width &&
       this.ball.y + this.ball.radius >= this.paddle.y
     )
+  }
+
+  private hasBallFallenThrough(): boolean {
+    return this.ball.y - this.ball.radius >= this.height
   }
 }

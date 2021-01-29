@@ -40,9 +40,12 @@ export default class Paddle {
     else if (this.direction === 'left') this.x -= this.speed / deltaTime
     else if (this.direction === 'right') this.x += this.speed / deltaTime
 
+    // left border
     if (this.x < 0 + this.padding) {
       this.x = this.padding
     }
+
+    // right border
     if (this.x + this.width > this.gameWidth - this.padding) {
       this.x = this.gameWidth - this.width - this.padding
     }

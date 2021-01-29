@@ -8,17 +8,26 @@ interface IInputHandlers {
 }
 
 export default class InputHandler {
-  constructor(handlers: IInputHandlers) {
-    document.addEventListener('keydown', (keyDownEvent) => {
-      // keyDownEvent.preventDefault()
-      if (keyDownEvent.code === KEYS.LEFT) handlers.arrowLeftPressed()
-      else if (keyDownEvent.code === KEYS.RIGHT) handlers.arrowRightPressed()
-    })
+  constructor(private handlers: IInputHandlers) {}
 
-    document.addEventListener('keyup', (keyDownEvent) => {
-      // keyDownEvent.preventDefault()
-      if (keyDownEvent.code === KEYS.LEFT) handlers.arrowLeftReleased()
-      else if (keyDownEvent.code === KEYS.RIGHT) handlers.arrowRightReleased()
-    })
+  public setupAllListeners() {
+    document.addEventListener('keydown', this.keyDownListener.bind(this))
+    document.addEventListener('keyup', this.keyUpListener.bind(this))
+    return this.cleanupAllListeners
+  }
+
+  public cleanupAllListeners() {
+    document.removeEventListener('keydown', this.keyDownListener.bind(this))
+    document.removeEventListener('keyup', this.keyUpListener.bind(this))
+  }
+
+  private keyDownListener(keyEvent: KeyboardEvent) {
+    if (keyEvent.code === KEYS.LEFT) this.handlers.arrowLeftPressed()
+    else if (keyEvent.code === KEYS.RIGHT) this.handlers.arrowRightPressed()
+  }
+
+  private keyUpListener(keyEvent: KeyboardEvent) {
+    if (keyEvent.code === KEYS.LEFT) this.handlers.arrowLeftReleased()
+    else if (keyEvent.code === KEYS.RIGHT) this.handlers.arrowRightReleased()
   }
 }
