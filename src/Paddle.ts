@@ -1,15 +1,19 @@
+import Game from './Game'
+
+type IPaddleDirection = 'left' | 'right' | null
+
 export default class Paddle {
   public width = 150
   public height = 25
   private padding = 5
-  private speed = 50
+  private speed = 80
   public x
   public y
-  private direction: 'left' | 'right' | null
+  private direction: IPaddleDirection
 
-  constructor(private gameWidth: number, private gameHeight: number) {
-    this.x = (this.gameWidth - this.width) / 2
-    this.y = this.gameHeight - this.height - this.padding
+  constructor(private game: Game) {
+    this.x = (this.game.width - this.width) / 2
+    this.y = this.game.height - this.height - this.padding
     this.direction = null
   }
 
@@ -17,22 +21,12 @@ export default class Paddle {
     this.direction = 'left'
   }
 
-  public stopLeft() {
-    if (this.direction !== 'left') return
-    this.direction = null
-  }
-
   public moveRight() {
     this.direction = 'right'
   }
 
-  public stopRight() {
-    if (this.direction !== 'right') return
-    this.direction = null
-  }
-
-  public stop() {
-    this.direction = null
+  public stop(direction: IPaddleDirection = null) {
+    if (this.direction === direction || direction === null) this.direction = null
   }
 
   public update(deltaTime: number) {
@@ -46,8 +40,8 @@ export default class Paddle {
     }
 
     // right border
-    if (this.x + this.width > this.gameWidth - this.padding) {
-      this.x = this.gameWidth - this.width - this.padding
+    if (this.x + this.width > this.game.width - this.padding) {
+      this.x = this.game.width - this.width - this.padding
     }
   }
 

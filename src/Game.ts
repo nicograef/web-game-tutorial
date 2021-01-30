@@ -9,8 +9,8 @@ export default class Game {
   private inputHandler: InputHandler
 
   private context: CanvasRenderingContext2D
-  private width: number
-  private height: number
+  public width: number
+  public height: number
 
   private lastTimestamp = 0
 
@@ -19,14 +19,14 @@ export default class Game {
     this.height = canvas.height
     this.width = canvas.width
 
-    this.paddle = new Paddle(this.width, this.height)
-    this.ball = new Ball(this.width, this.height)
+    this.paddle = new Paddle(this)
+    this.ball = new Ball(this)
 
     this.inputHandler = new InputHandler({
       arrowLeftPressed: () => this.paddle.moveLeft(),
-      arrowLeftReleased: () => this.paddle.stopLeft(),
+      arrowLeftReleased: () => this.paddle.stop('left'),
       arrowRightPressed: () => this.paddle.moveRight(),
-      arrowRightReleased: () => this.paddle.stopRight(),
+      arrowRightReleased: () => this.paddle.stop('right'),
     })
 
     this.inputHandler.setupAllListeners()
@@ -35,14 +35,14 @@ export default class Game {
   }
 
   private restart() {
-    this.paddle = new Paddle(this.width, this.height)
-    this.ball = new Ball(this.width, this.height)
+    this.paddle = new Paddle(this)
+    this.ball = new Ball(this)
     // this.inputHandler.setupAllListeners()
     this.loop(1)
   }
 
   private stop() {
-    this.inputHandler.cleanupAllListeners()
+    // this.inputHandler.cleanupAllListeners()
     setTimeout(this.restart.bind(this), 1000)
   }
 

@@ -8,17 +8,23 @@ interface IInputHandlers {
 }
 
 export default class InputHandler {
-  constructor(private handlers: IInputHandlers) {}
+  private onKeyDown: (keyEvent: KeyboardEvent) => void
+  private onKeyUp: (keyEvent: KeyboardEvent) => void
+
+  constructor(private handlers: IInputHandlers) {
+    this.onKeyDown = this.keyDownListener.bind(this)
+    this.onKeyUp = this.keyUpListener.bind(this)
+  }
 
   public setupAllListeners() {
-    document.addEventListener('keydown', this.keyDownListener.bind(this))
-    document.addEventListener('keyup', this.keyUpListener.bind(this))
+    document.addEventListener('keydown', this.onKeyDown)
+    document.addEventListener('keyup', this.onKeyUp)
     return this.cleanupAllListeners
   }
 
   public cleanupAllListeners() {
-    document.removeEventListener('keydown', this.keyDownListener.bind(this))
-    document.removeEventListener('keyup', this.keyUpListener.bind(this))
+    document.removeEventListener('keydown', this.onKeyDown)
+    document.removeEventListener('keyup', this.onKeyUp)
   }
 
   private keyDownListener(keyEvent: KeyboardEvent) {
