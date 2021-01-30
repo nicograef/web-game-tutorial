@@ -56,10 +56,6 @@ export default class Game {
     this.paddleBottom.update(deltaTime)
     this.paddleTop.update(deltaTime)
     this.ball.update(deltaTime)
-
-    if (this.isBallOnPaddle()) {
-      this.ball.vy = -1
-    }
   }
 
   private draw() {
@@ -78,9 +74,10 @@ export default class Game {
 
     this.clear()
     this.update(deltaTime)
+    this.handleCollisions()
     this.draw()
 
-    if (this.hasBallFallenThrough()) {
+    if (this.checkEndOfGame()) {
       this.stop()
       return
     }
@@ -88,7 +85,21 @@ export default class Game {
     window.requestAnimationFrame(this.loop.bind(this))
   }
 
-  private isBallOnPaddle(): boolean {
+  private handleCollisions() {
+    if (this.isBallOnPaddleBottom()) {
+      this.ball.vy = -Math.abs(this.ball.vy) - 1
+      this.ball.vx ? this.ball.vx++ : this.ball.vx--
+    } else if (this.isBallOnPaddleTop()) {
+      this.ball.vy = Math.abs(this.ball.vy) + 1
+      this.ball.vx ? this.ball.vx++ : this.ball.vx--
+    }
+  }
+
+  private checkEndOfGame() {
+    return this.hasBallFallenThroughBottom() || this.hasBallFallenThroughTop()
+  }
+
+  private isBallOnPaddleBottom(): boolean {
     return (
       this.ball.x >= this.paddleBottom.x &&
       this.ball.x <= this.paddleBottom.x + this.paddleBottom.width &&
@@ -96,7 +107,19 @@ export default class Game {
     )
   }
 
-  private hasBallFallenThrough(): boolean {
+  private isBallOnPaddleTop(): boolean {
+    return (
+      this.ball.x >= this.paddleTop.x &&
+      this.ball.x <= this.paddleTop.x + this.paddleTop.width &&
+      this.ball.y - this.ball.radius <= this.paddleTop.y + this.paddleTop.height
+    )
+  }
+
+  private hasBallFallenThroughBottom(): boolean {
     return this.ball.y - this.ball.radius >= this.height
+  }
+
+  private hasBallFallenThroughTop(): boolean {
+    return this.ball.y + this.ball.radius <= 0
   }
 }

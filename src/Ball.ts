@@ -2,20 +2,28 @@ import Game from './Game'
 
 export default class Ball {
   public radius = 10
-  private speed = 80
-  public x
-  public y
-  private vx = 1
-  public vy = -1
+  public x: number
+  public y: number
+  public vx: number
+  public vy: number
 
   constructor(private game: Game) {
+    // start from middle of playground
     this.x = (this.game.width - this.radius) / 2
     this.y = (this.game.height - this.radius) / 2
+
+    // randomize speed in x and y direction
+    this.vx = Math.floor(Math.random() * 40) + 20
+    this.vy = Math.floor(Math.random() * 40) + 20
+
+    // randomize direction by inverting speed
+    if (Math.random() > 0.5) this.vx = -this.vx
+    if (Math.random() > 0.5) this.vy = -this.vy
   }
 
   public update(deltaTime: number) {
-    this.x += (this.vx * this.speed) / deltaTime
-    this.y += (this.vy * this.speed) / deltaTime
+    this.x += this.vx / deltaTime
+    this.y += this.vy / deltaTime
 
     // left border
     if (this.x - this.radius < 0) {
@@ -31,8 +39,8 @@ export default class Ball {
 
     // top border
     if (this.y < 0 + this.radius) {
-      this.y = this.radius
-      this.vy = -this.vy
+      // this.y = this.radius
+      // this.vy = -this.vy
     }
 
     // bottom border
