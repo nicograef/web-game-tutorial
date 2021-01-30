@@ -1,4 +1,6 @@
 export enum KEYS {
-  LEFT = "ArrowLeft",
-  RIGHT = "ArrowRight",
+  LEFT = 'ArrowLeft',
+  RIGHT = 'ArrowRight',
+  A = 'KeyA',
+  D = 'KeyD',
 }

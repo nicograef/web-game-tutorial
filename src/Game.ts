@@ -3,7 +3,8 @@ import Ball from './Ball'
 import Paddle from './Paddle'
 
 export default class Game {
-  private paddle: Paddle
+  private paddleBottom: Paddle
+  private paddleTop: Paddle
   private ball: Ball
 
   private inputHandler: InputHandler
@@ -19,14 +20,19 @@ export default class Game {
     this.height = canvas.height
     this.width = canvas.width
 
-    this.paddle = new Paddle(this)
+    this.paddleBottom = new Paddle(this, 'bottom')
+    this.paddleTop = new Paddle(this, 'top')
     this.ball = new Ball(this)
 
     this.inputHandler = new InputHandler({
-      arrowLeftPressed: () => this.paddle.moveLeft(),
-      arrowLeftReleased: () => this.paddle.stop('left'),
-      arrowRightPressed: () => this.paddle.moveRight(),
-      arrowRightReleased: () => this.paddle.stop('right'),
+      arrowLeftPressed: () => this.paddleBottom.moveLeft(),
+      arrowLeftReleased: () => this.paddleBottom.stop('left'),
+      arrowRightPressed: () => this.paddleBottom.moveRight(),
+      arrowRightReleased: () => this.paddleBottom.stop('right'),
+      keyAPressed: () => this.paddleTop.moveLeft(),
+      keyAReleased: () => this.paddleTop.stop('left'),
+      keyDPressed: () => this.paddleTop.moveRight(),
+      keyDReleased: () => this.paddleTop.stop('right'),
     })
 
     this.inputHandler.setupAllListeners()
@@ -35,7 +41,7 @@ export default class Game {
   }
 
   private restart() {
-    this.paddle = new Paddle(this)
+    this.paddleBottom = new Paddle(this)
     this.ball = new Ball(this)
     // this.inputHandler.setupAllListeners()
     this.loop(1)
@@ -47,7 +53,8 @@ export default class Game {
   }
 
   private update(deltaTime: number) {
-    this.paddle.update(deltaTime)
+    this.paddleBottom.update(deltaTime)
+    this.paddleTop.update(deltaTime)
     this.ball.update(deltaTime)
 
     if (this.isBallOnPaddle()) {
@@ -57,7 +64,8 @@ export default class Game {
 
   private draw() {
     this.ball.draw(this.context)
-    this.paddle.draw(this.context)
+    this.paddleBottom.draw(this.context)
+    this.paddleTop.draw(this.context)
   }
 
   private clear() {
@@ -82,9 +90,9 @@ export default class Game {
 
   private isBallOnPaddle(): boolean {
     return (
-      this.ball.x >= this.paddle.x &&
-      this.ball.x <= this.paddle.x + this.paddle.width &&
-      this.ball.y + this.ball.radius >= this.paddle.y
+      this.ball.x >= this.paddleBottom.x &&
+      this.ball.x <= this.paddleBottom.x + this.paddleBottom.width &&
+      this.ball.y + this.ball.radius >= this.paddleBottom.y
     )
   }
 

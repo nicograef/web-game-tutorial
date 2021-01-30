@@ -1,6 +1,7 @@
 import Game from './Game'
 
 type IPaddleDirection = 'left' | 'right' | null
+type IPaddlePosition = 'bottom' | 'top'
 
 export default class Paddle {
   public width = 150
@@ -11,10 +12,12 @@ export default class Paddle {
   public y
   private direction: IPaddleDirection
 
-  constructor(private game: Game) {
-    this.x = (this.game.width - this.width) / 2
-    this.y = this.game.height - this.height - this.padding
+  constructor(private game: Game, position: IPaddlePosition = 'bottom') {
     this.direction = null
+    this.x = (this.game.width - this.width) / 2
+    if (position === 'bottom') this.y = this.game.height - this.height - this.padding
+    else if (position === 'top') this.y = this.padding
+    else throw new Error('Paddle Position required')
   }
 
   public moveLeft() {
