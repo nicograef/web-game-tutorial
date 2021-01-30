@@ -87,11 +87,11 @@ export default class Game {
 
   private handleCollisions() {
     if (this.isBallOnPaddleBottom()) {
-      this.ball.vy = -Math.abs(this.ball.vy) - 1
-      this.ball.vx ? this.ball.vx++ : this.ball.vx--
+      this.ball.vy = -Math.abs(this.ball.vy) - 2
+      this.ball.vx > 0 ? (this.ball.vx += 2) : (this.ball.vx -= 2)
     } else if (this.isBallOnPaddleTop()) {
-      this.ball.vy = Math.abs(this.ball.vy) + 1
-      this.ball.vx ? this.ball.vx++ : this.ball.vx--
+      this.ball.vy = Math.abs(this.ball.vy) + 2
+      this.ball.vx > 0 ? (this.ball.vx += 2) : (this.ball.vx -= 2)
     }
   }
 

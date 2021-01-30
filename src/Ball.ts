@@ -13,8 +13,8 @@ export default class Ball {
     this.y = (this.game.height - this.radius) / 2
 
     // randomize speed in x and y direction
-    this.vx = Math.floor(Math.random() * 40) + 20
-    this.vy = Math.floor(Math.random() * 40) + 20
+    this.vx = Math.floor(Math.random() * 30) + 30
+    this.vy = Math.floor(Math.random() * 30) + 30
 
     // randomize direction by inverting speed
     if (Math.random() > 0.5) this.vx = -this.vx
